@@ -1,54 +1,56 @@
+//variables that can be used to access the node modules
 var path = require('path');
 var webpack = require('webpack');
 
-module.exports = {
-  devtool: 'eval',
-  entry: {
+
+module.exports = { //exports modules as a whole to be used globally
+  devtool: 'eval',//modules executed w/ eval (developers tool to help w/ debuging)
+  entry: {  //sets up module with an entry point for the bundle
     app : [
-      'webpack-dev-server/client?http://localhost:3000',
-      'webpack/hot/only-dev-server',
-      './lib/index.js'],
+      'webpack-dev-server/client?http://localhost:3000', //server
+      'webpack/hot/only-dev-server', //client
+      './lib/index.js'], //js index file
   },
-  output: {
-    path: path.join(__dirname, './public/js/'),
-    filename: `app.js`,
-    publicPath: '/js/'
+  output: { //options for output
+    path: path.join(__dirname, './public/js/'), //absolute path
+    filename: `app.js`, //specifies name of file
+    publicPath: '/js/' //specifies the path when accessed publicly (i.e. browser)
   },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin()
+  plugins: [ //add web plugins to module
+    new webpack.HotModuleReplacementPlugin()//changes modules without reload
   ],
-  node: {
-    fs: "empty"
+  node: { //compiles for node environment
+    fs: "empty" //default filesystem set to empty
   },
-  resolve: {
-    alias: {
+  resolve: {//options for resolving path to modules (can replace with other module or path)
+    alias: { //modules are compared to an alias and replaced when there's a match
       'react': path.join(__dirname, 'node_modules', 'react')
     },
-    extensions: ['', '.js']
+    extensions: ['', '.js']//Resolve files with no extentions and .js
   },
-  resolveLoader: {
-    'fallback': path.join(__dirname, 'node_modules')
+  resolveLoader: {//replaces loader's modules and paths
+    'fallback': path.join(__dirname, 'node_modules') //look for modules not only in root or resolve.modulesDirectories
   },
-  module: {    
-    loaders: [
+  module: { //module options
+    loaders: [ //array to store loader info as JSON
     {
-      test: /\.js$/,
-      loaders: ['react-hot', 'babel'],
-      exclude: /node_modules/,
-      include: [path.join(__dirname,'./lib')]
+      test: /\.js$/, //requires js extention
+      loaders: ['react-hot', 'babel'], //modules used as loaders
+      exclude: /node_modules/, //can't be located in /fiber/node_modules
+      include: [path.join(__dirname,'./lib')] //path that the modules must be under
     },
     {
-      test: /\.xml$/,
-      loader: "raw"
+      test: /\.xml$/,//requires xml extention
+      loader: "raw"//module used as a loader
     },
     {
-      test: /\.json$/,
-      loaders: ['json-loader']
+      test: /\.json$/,//requires .json extention
+      loaders: ['json-loader']//module used as a loader
     },
     {
-      test: /\.css?$/,
-      loaders: ['style', 'raw'],
-      include: __dirname
+      test: /\.css?$/,//requires .css extention
+      loaders: ['style', 'raw'],//modules used as loaders
+      include: __dirname //path that the modules must be under
     }]
   }
 };
