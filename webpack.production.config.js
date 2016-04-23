@@ -2,7 +2,7 @@
 var path = require('path');
 var webpack = require('webpack');
 
-module.exports = {/exports modules as a whole to be used globally
+module.exports = {//exports modules as a whole to be used globally
   entry: { //sets up module with an entry point for the bundle
     app : [
       './lib/index.js'],//js index file
